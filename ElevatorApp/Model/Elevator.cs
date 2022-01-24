@@ -4,10 +4,6 @@ namespace ElevatorApp.Model;
 
 public class Elevator
 {
-    public Elevator(int destinationFloor)
-    {
-    }
-
     public int ElevatorId { get; set; }
 
     public string State { get; set; }
@@ -31,6 +27,11 @@ public class Elevator
         }
 
         return "Idle";
+    }
+    
+    public void SetCurrentFloor(int destinationFloor)
+    {
+        CurrentFloor = destinationFloor;
     }
 }
 
