@@ -1,3 +1,4 @@
+using ElevatorApp.Services;
 using ElevatorApp.Validators;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +13,17 @@ builder.Services.AddControllers(options =>
 builder.Services.AddMvc(setup => { }).AddFluentValidation(fv =>
     fv.RegisterValidatorsFromAssemblyContaining<ElevatorsFilterParametersValidator>());
 
+builder.Services.AddSingleton<ElevatorsRepository>();
 
 var app = builder.Build();
 
 app.MapGet("/", () => "Elevator App!");
 
 app.UseRouting();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
