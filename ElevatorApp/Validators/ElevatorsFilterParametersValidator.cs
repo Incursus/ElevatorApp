@@ -7,8 +7,8 @@ public class ElevatorsFilterParametersValidator : AbstractValidator<ElevatorFilt
 {
     public ElevatorsFilterParametersValidator()
     {
-        this.RuleFor(rule => rule.ElevatorId).Must(BeExistingElevator).When(m => true).WithMessage("Elevator doesn't exist.");
-        this.RuleFor(rule => rule.DestinationFloor).Must(BeExistingFloor).When(m => true).WithMessage("Floor doesn't exist.");
+        this.RuleFor(rule => rule.ElevatorId).Must(BeExistingElevator).When(_ => true).WithMessage("Elevator doesn't exist.");
+        this.RuleFor(rule => rule.DestinationFloor).Must(BeExistingFloor).When(_ => true).WithMessage("Floor doesn't exist.");
     }
 
     private bool BeExistingFloor(int floor) => floor is <= Constants.NumberOfFloors and >= 0;

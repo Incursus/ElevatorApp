@@ -1,10 +1,9 @@
 ﻿using System.Net.Mime;
+using ElevatorApp.Interfaces;
 using ElevatorApp.Model;
 using ElevatorApp.ResourceParameters;
-using ElevatorApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace ElevatorApp.Controllers;
 
@@ -13,9 +12,9 @@ public class ElevatorsController : ControllerBase
 {
     
     private readonly ILogger<ElevatorsController> logger;
-    private readonly ElevatorsRepository repository;
+    private readonly IElevatorEngine repository;
 
-    public ElevatorsController(ILogger<ElevatorsController> logger, ElevatorsRepository repository)
+    public ElevatorsController(ILogger<ElevatorsController> logger, IElevatorEngine repository)
     {
         this.logger = logger;
         this.repository = repository;
@@ -44,15 +43,22 @@ public class ElevatorsController : ControllerBase
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Elevator))]
-    public async Task<ActionResult> GetInfo([FromQuery] int elevatorId)
+    public Task<ActionResult> GetInfo([FromQuery] int elevatorId)
     {
-        return this.Ok(repository.Get(elevatorId));
+        return Task.FromResult<ActionResult>(this.Ok(repository.Get(elevatorId)));
     }
     
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Elevator))]
-    public async Task<ActionResult> GetLogs([FromQuery] int elevatorId)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ElevatorEvent>))]
+    public Task<ActionResult> GetLogs()
     {
-        return this.Ok(repository.Get(elevatorId));
+        return Task.FromResult<ActionResult>(this.Ok(ElevatorLogger.GetAll()));
+    }
+    
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ElevatorEvent))]
+    public Task<ActionResult> GetLog([FromQuery] int eventId)
+    {
+        return Task.FromResult<ActionResult>(this.Ok(ElevatorLogger.Get(eventId)));
     }
 }

@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ElevatorApp.Model;
-
-namespace ElevatorApp.ResourceParameters;
+﻿namespace ElevatorApp.ResourceParameters;
 
 public class ElevatorFilterParameters
 {

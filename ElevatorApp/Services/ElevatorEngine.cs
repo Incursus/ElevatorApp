@@ -1,14 +1,17 @@
-﻿using ElevatorApp.Model;
+﻿using ElevatorApp.Interfaces;
+using ElevatorApp.Model;
 
-namespace ElevatorApp.Services;
+namespace ElevatorApp.Model;
 
-public class ElevatorsRepository
+public class ElevatorEngine : IElevatorEngine
 {
+    private readonly IThread thread;
     private List<Elevator> elevators = new();
-    private List<ElevatorLogs> elevatorLogs = new();
 
-    public ElevatorsRepository()
+    public ElevatorEngine(IThread thread)
     {
+        this.thread = thread;
+        
         for (int i = 0; i < Constants.NumberOfElevators; i++)
         {
             elevators.Add(new Elevator
@@ -30,7 +33,9 @@ public class ElevatorsRepository
     {
         var elevator = elevators[elevatorId];
         
-        elevator.MovementState = this.GetMovementState(destinationFloor, elevator);
+        elevator.MovementState = GetMovementState(destinationFloor, elevator);
+
+        ElevatorLogger.Add(elevator);
 
         if (elevator.MovementState == MovementState.Idle)
         {
@@ -40,20 +45,23 @@ public class ElevatorsRepository
         if (elevator.MovementState is MovementState.Up or MovementState.Down)
         {
             CloseDoors(elevator);
+            ElevatorLogger.Add(elevator);
 
             var numberOfFloorsToMove = Math.Abs(elevator.CurrentFloor - destinationFloor);
 
-            for (int i = 0; i < numberOfFloorsToMove; i++)
+            for (var i = 0; i < numberOfFloorsToMove; i++)
             {
-                Thread.Sleep(1000);
+                thread.Sleep(1000);
 
                 if (elevator.MovementState == MovementState.Up)
                 {
                     elevator.CurrentFloor++;
+                    ElevatorLogger.Add(elevator);
                 }
                 else if (elevator.MovementState == MovementState.Down)
                 {
                     elevator.CurrentFloor--;
+                    ElevatorLogger.Add(elevator);
                 }
             }
 
@@ -61,10 +69,11 @@ public class ElevatorsRepository
             elevator.CurrentFloor = destinationFloor;
 
             OpenDoors(elevator);
+            ElevatorLogger.Add(elevator);
         }
     }
 
-    private MovementState GetMovementState(int destinationFloor, Elevator elevator)
+    private static MovementState GetMovementState(int destinationFloor, Elevator elevator)
     {
         if (destinationFloor < elevator.CurrentFloor)
         {
@@ -78,24 +87,20 @@ public class ElevatorsRepository
 
         return MovementState.Idle;
     }
-    
-    public void CloseDoors(Elevator elevator)
+
+    private void CloseDoors(Elevator elevator)
     {
         // TODO Logic to determine if doors already closed
         
-        Thread.Sleep(2000);
+        thread.Sleep(2000);
         elevator.DoorState = DoorState.Closed;
     }
-    
-    public void OpenDoors(Elevator elevator)
+
+    private void OpenDoors(Elevator elevator)
     {
         // TODO Logic to determine if doors already opened
 
-        Thread.Sleep(2000);
+        thread.Sleep(2000);
         elevator.DoorState = DoorState.Opened;
     }
-}
-
-internal class ElevatorLogs
-{
 }
