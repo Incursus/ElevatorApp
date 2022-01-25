@@ -1,4 +1,5 @@
 ﻿using ElevatorApp.Model;
+using ElevatorApp.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FluentAssertions;
 
@@ -24,8 +25,7 @@ public class ElevatorLoggerTests
         };
         elevatorLogger.Add(elevator);
         
-
-        var items= elevatorLogger.GetAll();
+        var items = elevatorLogger.GetAll();
 
         items.Should().NotBeEmpty();
         items[0].ElevatorId.Should().Be(1);

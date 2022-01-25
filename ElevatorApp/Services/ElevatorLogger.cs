@@ -1,6 +1,7 @@
 ﻿using ElevatorApp.Interfaces;
+using ElevatorApp.Model;
 
-namespace ElevatorApp.Model;
+namespace ElevatorApp.Services;
 
 public class ElevatorLogger : IElevatorLogger
 {

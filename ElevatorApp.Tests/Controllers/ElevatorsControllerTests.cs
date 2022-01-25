@@ -1,7 +1,6 @@
 ﻿using ElevatorApp.Controllers;
 using ElevatorApp.Interfaces;
 using ElevatorApp.ResourceParameters;
-using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -17,7 +16,7 @@ public class ElevatorsControllerTests
     public void Initialize()
     {
         engineMock = new Mock<IElevatorEngine>();
-        controller = new ElevatorsController(new Mock<ILogger<ElevatorsController>>().Object, engineMock.Object, new Mock<IElevatorLogger>().Object);
+        controller = new ElevatorsController(engineMock.Object, new Mock<IElevatorLogger>().Object);
     }
 
     [TestMethod]

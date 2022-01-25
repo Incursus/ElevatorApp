@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 using ElevatorApp.Interfaces;
-using ElevatorApp.Model;
+using ElevatorApp.Services;
 using ElevatorApp.Validators;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;

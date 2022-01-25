@@ -1,5 +1,5 @@
 ﻿using ElevatorApp.Interfaces;
-using ElevatorApp.Model;
+using ElevatorApp.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
