@@ -16,7 +16,7 @@ public class ElevatorLoggerTests
     }
     
     [TestMethod]
-    public void Move_WhenCalled_ShouldProperlyDelay()
+    public void GetAll_WhenCalled_ShouldPopulateDataCorrectly()
     {
         var elevator = new Elevator
         {
