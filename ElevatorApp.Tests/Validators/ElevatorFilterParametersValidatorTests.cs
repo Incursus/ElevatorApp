@@ -14,7 +14,7 @@ public class ElevatorFilterParametersValidatorTests
     {
         var validator = new ElevatorsFilterParametersValidator();
 
-        var validationResult = validator.TestValidateAsync(new ElevatorFilterParameters() {ElevatorId = -1, DestinationFloor = -1});
+        var validationResult = validator.TestValidateAsync(new ElevatorFilterParameters {ElevatorId = -1, DestinationFloor = -1});
 
         validationResult.Result.IsValid.Should().Be(false);
     }
@@ -24,7 +24,7 @@ public class ElevatorFilterParametersValidatorTests
     {
         var validator = new ElevatorsFilterParametersValidator();
 
-        var validationResult = validator.TestValidateAsync(new ElevatorFilterParameters() {ElevatorId = Constants.NumberOfElevators, DestinationFloor = Constants.NumberOfFloors});
+        var validationResult = validator.TestValidateAsync(new ElevatorFilterParameters {ElevatorId = Constants.NumberOfElevators, DestinationFloor = Constants.NumberOfFloors});
 
         validationResult.Result.IsValid.Should().Be(true);
     }
