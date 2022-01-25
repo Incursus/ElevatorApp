@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using ElevatorApp.ResourceParameters;
+﻿using ElevatorApp.ResourceParameters;
 using ElevatorApp.Validators;
 using FluentAssertions;
 using FluentValidation.TestHelper;
@@ -11,18 +10,22 @@ namespace ElevatorApp.Tests.Validators;
 public class ElevatorFilterParametersValidatorTests
 {
     [TestMethod]
-    [DynamicData(nameof(GetTestData), DynamicDataSourceType.Method)]
-    public void ElevatorsFilterParametersValidator_ProvidedFilter_ShouldValidateCorrectly(ElevatorFilterParameters filter, bool expected)
+    public void ElevatorsFilterParametersValidator_ProvidedIncorrectFilter_ShouldValidateToFalse()
     {
         var validator = new ElevatorsFilterParametersValidator();
 
-        var validationResult = validator.TestValidateAsync(filter);
+        var validationResult = validator.TestValidateAsync(new ElevatorFilterParameters() {ElevatorId = -1, DestinationFloor = -1});
 
-        validationResult.Result.IsValid.Should().Be(expected);
+        validationResult.Result.IsValid.Should().Be(false);
     }
     
-    private static IEnumerable<object[]> GetTestData()
+    [TestMethod]
+    public void ElevatorsFilterParametersValidator_ProvidedCorrectFilter_ShouldValidateToTrue()
     {
-        yield return new object[] { new ElevatorFilterParameters() {ElevatorId = 999} };
+        var validator = new ElevatorsFilterParametersValidator();
+
+        var validationResult = validator.TestValidateAsync(new ElevatorFilterParameters() {ElevatorId = Constants.NumberOfElevators, DestinationFloor = Constants.NumberOfFloors});
+
+        validationResult.Result.IsValid.Should().Be(true);
     }
 }

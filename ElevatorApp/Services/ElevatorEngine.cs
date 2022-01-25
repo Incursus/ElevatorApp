@@ -6,12 +6,14 @@ namespace ElevatorApp.Model;
 public class ElevatorEngine : IElevatorEngine
 {
     private readonly IThread thread;
+    private readonly IElevatorLogger elevatorLogger;
     private List<Elevator> elevators = new();
 
-    public ElevatorEngine(IThread thread)
+    public ElevatorEngine(IThread thread, IElevatorLogger elevatorLogger)
     {
         this.thread = thread;
-        
+        this.elevatorLogger = elevatorLogger;
+
         for (int i = 0; i < Constants.NumberOfElevators; i++)
         {
             elevators.Add(new Elevator
@@ -28,14 +30,14 @@ public class ElevatorEngine : IElevatorEngine
     {
         return elevators[elevatorId];
     }
-    
+
     public void Move(int elevatorId, int destinationFloor)
     {
         var elevator = elevators[elevatorId];
         
         elevator.MovementState = GetMovementState(destinationFloor, elevator);
 
-        ElevatorLogger.Add(elevator);
+        elevatorLogger.Add(elevator);
 
         if (elevator.MovementState == MovementState.Idle)
         {
@@ -45,7 +47,7 @@ public class ElevatorEngine : IElevatorEngine
         if (elevator.MovementState is MovementState.Up or MovementState.Down)
         {
             CloseDoors(elevator);
-            ElevatorLogger.Add(elevator);
+            elevatorLogger.Add(elevator);
 
             var numberOfFloorsToMove = Math.Abs(elevator.CurrentFloor - destinationFloor);
 
@@ -56,12 +58,12 @@ public class ElevatorEngine : IElevatorEngine
                 if (elevator.MovementState == MovementState.Up)
                 {
                     elevator.CurrentFloor++;
-                    ElevatorLogger.Add(elevator);
+                    elevatorLogger.Add(elevator);
                 }
                 else if (elevator.MovementState == MovementState.Down)
                 {
                     elevator.CurrentFloor--;
-                    ElevatorLogger.Add(elevator);
+                    elevatorLogger.Add(elevator);
                 }
             }
 
@@ -69,7 +71,7 @@ public class ElevatorEngine : IElevatorEngine
             elevator.CurrentFloor = destinationFloor;
 
             OpenDoors(elevator);
-            ElevatorLogger.Add(elevator);
+            elevatorLogger.Add(elevator);
         }
     }
 

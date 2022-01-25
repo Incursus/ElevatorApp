@@ -3,24 +3,29 @@ using ElevatorApp.Interfaces;
 using ElevatorApp.Model;
 using ElevatorApp.ResourceParameters;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 
 namespace ElevatorApp.Controllers;
 
+[ApiController]
+[Route("api/elevators")]
 [Produces(MediaTypeNames.Application.Json)]
 public class ElevatorsController : ControllerBase
 {
     
     private readonly ILogger<ElevatorsController> logger;
     private readonly IElevatorEngine repository;
+    private readonly IElevatorLogger elevatorLogger;
 
-    public ElevatorsController(ILogger<ElevatorsController> logger, IElevatorEngine repository)
+    public ElevatorsController(ILogger<ElevatorsController> logger, IElevatorEngine repository, IElevatorLogger elevatorLogger)
     {
         this.logger = logger;
         this.repository = repository;
+        this.elevatorLogger = elevatorLogger;
     }
-
-    [HttpGet]
+    
+    [HttpGet(nameof(Call))]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Elevator))]
     public async Task<ActionResult> Call([FromQuery] ElevatorFilterParameters queryStringParameters)
     {
@@ -41,24 +46,24 @@ public class ElevatorsController : ControllerBase
         return await Task.FromResult<ActionResult>(this.Ok());
     }
 
-    [HttpGet]
+    [HttpGet(nameof(GetInfo))]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Elevator))]
-    public Task<ActionResult> GetInfo([FromQuery] int elevatorId)
+    public async Task<ActionResult> GetInfo([FromQuery] int elevatorId)
     {
-        return Task.FromResult<ActionResult>(this.Ok(repository.Get(elevatorId)));
+        return await Task.FromResult<ActionResult>(this.Ok(repository.Get(elevatorId)));
     }
     
-    [HttpGet]
+    [HttpGet(nameof(GetLogs))]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ElevatorEvent>))]
-    public Task<ActionResult> GetLogs()
+    public async Task<ActionResult> GetLogs()
     {
-        return Task.FromResult<ActionResult>(this.Ok(ElevatorLogger.GetAll()));
+        return await Task.FromResult<ActionResult>(this.Ok(elevatorLogger.GetAll()));
     }
     
-    [HttpGet]
+    [HttpGet(nameof(GetLog))]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ElevatorEvent))]
-    public Task<ActionResult> GetLog([FromQuery] int eventId)
+    public async Task<ActionResult> GetLog([FromQuery] int eventId)
     {
-        return Task.FromResult<ActionResult>(this.Ok(ElevatorLogger.Get(eventId)));
+        return await Task.FromResult<ActionResult>(this.Ok(elevatorLogger.Get(eventId)));
     }
 }

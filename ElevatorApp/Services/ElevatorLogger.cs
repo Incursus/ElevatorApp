@@ -1,12 +1,13 @@
-﻿using ElevatorApp.Model;
+﻿using ElevatorApp.Interfaces;
+using ElevatorApp.Model;
 
 namespace ElevatorApp.Model;
 
-public static class ElevatorLogger
+public class ElevatorLogger : IElevatorLogger
 {
-    private static List<ElevatorEvent> entries = new();
+    private List<ElevatorEvent> entries = new();
 
-    public static void Add(Elevator elevator)
+    public void Add(Elevator elevator)
     {
         entries.Add(new ElevatorEvent
         {
@@ -18,12 +19,12 @@ public static class ElevatorLogger
         });
     }
 
-    public static List<ElevatorEvent> GetAll()
+    public List<ElevatorEvent> GetAll()
     {
         return entries;
     }
 
-    public static ElevatorEvent Get(int eventId)
+    public ElevatorEvent Get(int eventId)
     {
         // TODO Use Dictionary lookup for better performance
         return entries.FirstOrDefault(x => x.Id == eventId);

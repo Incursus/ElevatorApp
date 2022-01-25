@@ -18,7 +18,7 @@ public class ElevatorsControllerTests
     public void Initialize()
     {
         engineMock = new Mock<IElevatorEngine>();
-        controller = new ElevatorsController(new Mock<ILogger<ElevatorsController>>().Object, engineMock.Object);
+        controller = new ElevatorsController(new Mock<ILogger<ElevatorsController>>().Object, engineMock.Object, new Mock<IElevatorLogger>().Object);
     }
 
     [TestMethod]
