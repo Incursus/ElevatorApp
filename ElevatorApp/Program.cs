@@ -45,8 +45,6 @@ app.MapGet("/", () => "Elevator App!");
 
 app.UseRouting();
 
-
-
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
 app.Run();
