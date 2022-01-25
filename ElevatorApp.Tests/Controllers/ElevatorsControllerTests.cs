@@ -1,6 +1,5 @@
 ﻿using ElevatorApp.Controllers;
 using ElevatorApp.Interfaces;
-using ElevatorApp.Model;
 using ElevatorApp.ResourceParameters;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

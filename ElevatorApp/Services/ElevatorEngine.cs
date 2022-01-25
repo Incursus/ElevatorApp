@@ -1,5 +1,4 @@
 ﻿using ElevatorApp.Interfaces;
-using ElevatorApp.Model;
 
 namespace ElevatorApp.Model;
 
@@ -7,7 +6,7 @@ public class ElevatorEngine : IElevatorEngine
 {
     private readonly IThread thread;
     private readonly IElevatorLogger elevatorLogger;
-    private List<Elevator> elevators = new();
+    private readonly List<Elevator> elevators = new();
 
     public ElevatorEngine(IThread thread, IElevatorLogger elevatorLogger)
     {

@@ -1,5 +1,4 @@
-﻿using ElevatorApp.Interfaces;
-using ElevatorApp.Model;
+﻿using ElevatorApp.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FluentAssertions;
 

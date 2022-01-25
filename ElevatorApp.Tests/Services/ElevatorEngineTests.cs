@@ -19,7 +19,7 @@ public class ElevatorEngineTests
     }
     
     [TestMethod]
-    public async Task Move_WhenCalled_ShouldProperlyDelay()
+    public void Move_WhenCalled_ShouldProperlyDelay()
     {
         elevatorEngine.Move(0, 1);
 

@@ -1,11 +1,10 @@
 ﻿using ElevatorApp.Interfaces;
-using ElevatorApp.Model;
 
 namespace ElevatorApp.Model;
 
 public class ElevatorLogger : IElevatorLogger
 {
-    private List<ElevatorEvent> entries = new();
+    private readonly List<ElevatorEvent> entries = new();
 
     public void Add(Elevator elevator)
     {

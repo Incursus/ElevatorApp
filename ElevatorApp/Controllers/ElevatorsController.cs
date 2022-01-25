@@ -3,7 +3,6 @@ using ElevatorApp.Interfaces;
 using ElevatorApp.Model;
 using ElevatorApp.ResourceParameters;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 
 namespace ElevatorApp.Controllers;
